@@ -1,367 +1,116 @@
+[![a header for a software project about building containers for AI and machine learning](https://raw.githubusercontent.com/dusty-nv/jetson-containers/docs/docs/images/header_blueprint_rainbow.jpg)](https://www.jetson-ai-lab.com)
+
 # Machine Learning Containers for Jetson and JetPack
 
-![NVIDIA](https://img.shields.io/static/v1?style=for-the-badge&message=NVIDIA&color=222222&logo=NVIDIA&logoColor=76B900&label=) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white) ![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white) ![Jupyter Notebook](https://img.shields.io/badge/jupyter-%26FA0F00.svg?style=for-the-badge&logo=jupyter&logoColor=white) ![ROS](https://img.shields.io/badge/ros-%230A0FF9.svg?style=for-the-badge&logo=ros&logoColor=white) 
+[![l4t-pytorch](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-pytorch_jp51.yml?label=l4t-pytorch)](/packages/l4t/l4t-pytorch)  [![l4t-tensorflow](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-tensorflow-tf2_jp51.yml?label=l4t-tensorflow)](/packages/l4t/l4t-tensorflow) [![l4t-ml](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-ml_jp51.yml?label=l4t-ml)](/packages/l4t/l4t-ml) [![l4t-diffusion](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-diffusion_jp51.yml?label=l4t-diffusion)](/packages/l4t/l4t-diffusion) [![l4t-text-generation](https://img.shields.io/github/actions/workflow/status/dusty-nv/jetson-containers/l4t-text-generation_jp60.yml?label=l4t-text-generation)](/packages/l4t/l4t-text-generation)
 
-This project provides Dockerfiles, build scripts, and container images for machine learning on [NVIDIA Jetson](https://developer.nvidia.com/embedded-computing):
+Modular container build system that provides the latest [**AI/ML packages**](http://jetson.webredirect.org/) for [NVIDIA Jetson](https://developer.nvidia.com/embedded-computing) :rocket::robot:
 
-* [`l4t-ml`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-ml)
-* [`l4t-pytorch`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch)
-* [`l4t-tensorflow`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-tensorflow)
+| |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+|---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **ML** | [`pytorch`](packages/pytorch) [`tensorflow`](packages/ml/tensorflow) [`jax`](packages/ml/jax) [`onnxruntime`](packages/ml/onnxruntime) [`deepstream`](packages/multimedia/deepstream) [`holoscan`](packages/multimedia/holoscan) [`CTranslate2`](packages/ml/ctranslate2) [`JupyterLab`](packages/ml/jupyterlab)                                                                                                                                                                                                                                                                               |
+| **LLM** | [`NanoLLM`](packages/llm/nano_llm) [`transformers`](packages/llm/transformers) [`text-generation-webui`](packages/llm/text-generation-webui) [`ollama`](packages/llm/ollama) [`llama.cpp`](packages/llm/llama_cpp) [`llama-factory`](packages/llm/llama-factory) [`exllama`](packages/llm/exllama) [`vLLM`](packages/llm/vllm) [`MLC`](packages/llm/mlc) [`AWQ`](packages/llm/awq) [`AutoGPTQ`](packages/llm/auto_gptq) [`FlashAttention`](packages/llm/flash-attention) [`DeepSpeed`](packages/llm/deepspeed) [`bitsandbytes`](packages/llm/bitsandbytes) [`xformers`](packages/llm/xformers) |
+| **VLM** | [`llava`](packages/vlm/llava) [`llama-vision`](packages/vlm/llama-vision) [`VILA`](packages/vlm/vila) [`LITA`](packages/vlm/lita) [`NanoLLM`](packages/llm/nano_llm) [`ShapeLLM`](packages/vlm/shape-llm) [`Prismatic`](packages/vlm/prismatic) [`xtuner`](packages/vlm/xtuner)                                                                                                                                                                                                                                                                                                                |
+| **VIT** | [`NanoOWL`](packages/vit/nanoowl) [`NanoSAM`](packages/vit/nanosam) [`Segment Anything (SAM)`](packages/vit/sam) [`Track Anything (TAM)`](packages/vit/tam) [`clip_trt`](packages/vit/clip_trt)                                                                                                                                                                                                                                                                                                                                                                                                |
+| **RAG** | [`llama-index`](packages/rag/llama-index) [`langchain`](packages/rag/langchain) [`jetson-copilot`](packages/rag/jetson-copilot) [`NanoDB`](packages/vectordb/nanodb) [`FAISS`](packages/vectordb/faiss) [`RAFT`](packages/ml/rapids/raft)                                                                                                                                                                                                                                                                                                                                                      |
+| **L4T** | [`l4t-pytorch`](packages/l4t/l4t-pytorch) [`l4t-tensorflow`](packages/l4t/l4t-tensorflow) [`l4t-ml`](packages/l4t/l4t-ml) [`l4t-diffusion`](packages/l4t/l4t-diffusion) [`l4t-text-generation`](packages/l4t/l4t-text-generation)                                                                                                                                                                                                                                                                                                                                                              |
+| **CUDA** | [`cupy`](packages/cuda/cupy) [`cuda-python`](packages/cuda/cuda-python) [`pycuda`](packages/cuda/pycuda) [`numba`](packages/numba) [`opencv:cuda`](packages/opencv) [`cudf`](packages/ml/rapids/cudf) [`cuml`](packages/ml/rapids/cuml)                                                                                                                                                                                                                                                                                                                                                        |
+| **Robotics** | [`ROS`](packages/ros) [`LeRobot`](packages/robots/lerobot) [`OpenVLA`](packages/robots/openvla) [`3D Diffusion Policy`](packages/robots/3d_diffusion_policy) [`Crossformer`](packages/robots/crossformer) [`MimicGen`](packages/robots/mimicgen) [`OpenDroneMap`](packages/robots/opendronemap) [`ZED`](packages/hardware/zed)                                                                                                                                                                                                                                                                 |
+| **Graphics** | [`Cosmos`](packages/robots/cosmos) [`stable-diffusion-webui`](packages/diffusion/stable-diffusion-webui) [`comfyui`](packages/diffusion/comfyui) [`nerfstudio`](packages/nerf/nerfstudio) [`meshlab`](packages/nerf/meshlab) [`pixsfm`](packages/nerf/pixsfm) [`gsplat`](packages/nerf/gsplat)                                                                                                                                                                                                                                                                                              |
+| **Mamba** | [`mamba`](packages/mamba/mamba) [`mambavision`](packages/mamba/mambavision) [`cobra`](packages/mamba/cobra) [`dimba`](packages/mamba/dimba) [`videomambasuite`](packages/mamba/videomambasuite)                                                                                                                                                                                                                                                                                                                                                                                                |
+| **Speech** | [`whisper`](packages/speech/whisper) [`whisper_trt`](packages/speech/whisper_trt) [`piper`](packages/speech/piper-tts) [`riva`](packages/speech/riva-client) [`audiocraft`](packages/speech/audiocraft) [`voicecraft`](packages/speech/voicecraft) [`xtts`](packages/speech/xtts)                                                                                                                                                                                                                                                                                                              |
+| **Home/IoT** | [`homeassistant-core`](packages/smart-home/homeassistant-core) [`wyoming-whisper`](packages/smart-home/wyoming/wyoming-whisper) [`wyoming-openwakeword`](packages/smart-home/wyoming/openwakeword) [`wyoming-piper`](packages/smart-home/wyoming/piper)                                                                                                                                                                                                                                                                                                                                        |
 
-The following ROS containers are also available, which can be pulled from [DockerHub](https://hub.docker.com/repository/docker/dustynv/ros) or built from source:
+See the [**`packages`**](packages) directory for the full list, including pre-built container images for JetPack/L4T.
 
-| Distro | Base | Desktop | PyTorch |
-|----|:----:|:----:|:----:|
-| ROS Melodic   | [`ros-base`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=melodic)           | X | X |
-| ROS Noetic    | [`ros-base`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=noetic-ros-base)   | X | [`PyTorch`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=noetic-pytorch) |
-| ROS2 Foxy     | [`ros-base`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=foxy-ros-base)     | [`desktop`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=foxy-desktop) | [`PyTorch`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=foxy-pytorch) |
-| ROS2 Galactic | [`ros-base`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=galactic-ros-base) | [`desktop`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=galactic-desktop) | [`PyTorch`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=galactic-pytorch) |
-| ROS2 Humble   | [`ros-base`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=humble-ros-base)   | [`desktop`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=humble-desktop) | [`PyTorch`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=humble-pytorch) |
-| ROS2 Iron     | [`ros-base`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=iron-ros-base)   | [`desktop`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=iron-desktop) | [`PyTorch`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=iron-pytorch) |
-
-The PyTorch-based ROS containers also have the [jetson-inference](https://github.com/dusty-nv/jetson-inference) and [ros_deep_learning](https://github.com/dusty-nv/ros_deep_learning) packages installed.
-
-## Pre-Built Container Images
-
-The following images can be pulled from NGC or DockerHub without needing to build the containers yourself:
-
-<details>
-<summary>
-<a href=https://ngc.nvidia.com/catalog/containers/nvidia:l4t-ml><b>l4t-ml</b></a> (<code>nvcr.io/nvidia/l4t-ml:r35.2.1-py3</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`l4t-ml`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-ml)                 |   R35.2.1   | `nvcr.io/nvidia/l4t-ml:r35.2.1-py3`                |
-|                                                                                     |   R35.1.0   | `nvcr.io/nvidia/l4t-ml:r35.1.0-py3`                |
-|                                                                                     |   R34.1.1   | `nvcr.io/nvidia/l4t-ml:r34.1.1-py3`                |
-|                                                                                     |   R34.1.0   | `nvcr.io/nvidia/l4t-ml:r34.1.0-py3`                |
-|                                                                                     |   R32.7.1   | `nvcr.io/nvidia/l4t-ml:r32.7.1-py3`                |
-|                                                                                     |   R32.6.1   | `nvcr.io/nvidia/l4t-ml:r32.6.1-py3`                |
-|                                                                                     |   R32.5.0*  | `nvcr.io/nvidia/l4t-ml:r32.5.0-py3`                |
-|                                                                                     |   R32.4.4   | `nvcr.io/nvidia/l4t-ml:r32.4.4-py3`                |
-|                                                                                     |   R32.4.3   | `nvcr.io/nvidia/l4t-ml:r32.4.3-py3`                |
-
-</details>
-<details>
-<summary>
-<a href=https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch><b>l4t-pytorch</b></a> (<code>nvcr.io/nvidia/l4t-pytorch:r35.2.1-pth2.0-py3</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`l4t-pytorch`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch)       |   R35.2.1   | `nvcr.io/nvidia/l4t-pytorch:r35.2.1-pth2.0-py3`    |
-|                                                                                     |   R35.1.0   | `nvcr.io/nvidia/l4t-pytorch:r35.1.0-pth1.13-py3`   |
-|                                                                                     |   R35.1.0   | `nvcr.io/nvidia/l4t-pytorch:r35.1.0-pth1.12-py3`   |
-|                                                                                     |   R35.1.0   | `nvcr.io/nvidia/l4t-pytorch:r35.1.0-pth1.11-py3`   |
-|                                                                                     |   R34.1.1   | `nvcr.io/nvidia/l4t-pytorch:r34.1.1-pth1.12-py3`   |
-|                                                                                     |   R34.1.1   | `nvcr.io/nvidia/l4t-pytorch:r34.1.1-pth1.11-py3`   |
-|                                                                                     |   R34.1.0   | `nvcr.io/nvidia/l4t-pytorch:r34.1.0-pth1.12-py3`   |
-|                                                                                     |   R32.7.1   | `nvcr.io/nvidia/l4t-pytorch:r32.7.1-pth1.10-py3`   |
-|                                                                                     |   R32.7.1   | `nvcr.io/nvidia/l4t-pytorch:r32.7.1-pth1.9-py3`    |
-|                                                                                     |   R32.6.1   | `nvcr.io/nvidia/l4t-pytorch:r32.6.1-pth1.9-py3`    |
-|                                                                                     |   R32.6.1   | `nvcr.io/nvidia/l4t-pytorch:r32.6.1-pth1.8-py3`    |
-|                                                                                     |   R32.5.0*  | `nvcr.io/nvidia/l4t-pytorch:r32.5.0-pth1.7-py3`    |
-|                                                                                     |   R32.5.0*  | `nvcr.io/nvidia/l4t-pytorch:r32.5.0-pth1.6-py3`    |
-|                                                                                     |   R32.4.4   | `nvcr.io/nvidia/l4t-pytorch:r32.4.4-pth1.6-py3`    |
-|                                                                                     |   R32.4.3   | `nvcr.io/nvidia/l4t-pytorch:r32.4.3-pth1.6-py3`    |
-
-</details>
-<details>
-<summary>
-<a href=https://ngc.nvidia.com/catalog/containers/nvidia:l4t-tensorflow><b>l4t-tensorflow</b></a> (<code>nvcr.io/nvidia/l4t-tensorflow:r35.2.1-tf2.11-py3</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`l4t-tensorflow`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-tensorflow) |   R35.2.1   | `nvcr.io/nvidia/l4t-tensorflow:r35.2.1-tf2.11-py3` |
-|                                                                                     |   R35.1.0   | `nvcr.io/nvidia/l4t-tensorflow:r35.1.0-tf1.15-py3` |
-|                                                                                     |   R35.1.0   | `nvcr.io/nvidia/l4t-tensorflow:r35.1.0-tf2.9-py3`  |
-|                                                                                     |   R34.1.1   | `nvcr.io/nvidia/l4t-tensorflow:r34.1.1-tf1.15-py3` |
-|                                                                                     |   R34.1.1   | `nvcr.io/nvidia/l4t-tensorflow:r34.1.1-tf2.8-py3`  |
-|                                                                                     |   R34.1.0   | `nvcr.io/nvidia/l4t-tensorflow:r34.1.0-tf1.15-py3` |
-|                                                                                     |   R34.1.0   | `nvcr.io/nvidia/l4t-tensorflow:r34.1.0-tf2.8-py3`  |
-|                                                                                     |   R32.7.1   | `nvcr.io/nvidia/l4t-tensorflow:r32.7.1-tf1.15-py3` |
-|                                                                                     |   R32.7.1   | `nvcr.io/nvidia/l4t-tensorflow:r32.7.1-tf2.7-py3`  |
-|                                                                                     |   R32.6.1   | `nvcr.io/nvidia/l4t-tensorflow:r32.6.1-tf1.15-py3` |
-|                                                                                     |   R32.6.1   | `nvcr.io/nvidia/l4t-tensorflow:r32.6.1-tf2.5-py3`  |
-|                                                                                     |   R32.5.0*  | `nvcr.io/nvidia/l4t-tensorflow:r32.5.0-tf1.15-py3` |
-|                                                                                     |   R32.5.0*  | `nvcr.io/nvidia/l4t-tensorflow:r32.5.0-tf2.3-py3`  |
-|                                                                                     |   R32.4.4   | `nvcr.io/nvidia/l4t-tensorflow:r32.4.4-tf1.15-py3` |
-|                                                                                     |   R32.4.4   | `nvcr.io/nvidia/l4t-tensorflow:r32.4.4-tf2.3-py3`  |
-|                                                                                     |   R32.4.3   | `nvcr.io/nvidia/l4t-tensorflow:r32.4.3-tf1.15-py3` |
-|                                                                                     |   R32.4.3   | `nvcr.io/nvidia/l4t-tensorflow:r32.4.3-tf2.2-py3`  |
-
-</details>
-
-#### ROS
-
-<details>
-<summary>
-<a href=https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=melodic><b>ROS Melodic</b></a> (<code>dustynv/ros:melodic-ros-base-l4t-r32.7.1</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`ROS Melodic`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=melodic) <sup>(ros-base)</sup> |   R32.7.1   | `dustynv/ros:melodic-ros-base-l4t-r32.7.1`         |
-|                                                                                     |   R32.6.1   | `dustynv/ros:melodic-ros-base-l4t-r32.6.1`         |
-|                                                                                     |   R32.5.0*  | `dustynv/ros:melodic-ros-base-l4t-r32.5.0`         |
-|                                                                                     |   R32.4.4   | `dustynv/ros:melodic-ros-base-l4t-r32.4.4`         |
-
-</details>
-<details>
-<summary>
-<a href=https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=noetic><b>ROS Noetic</b></a> (<code>dustynv/ros:noetic-ros-base-l4t-r35.3.1</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`ROS Noetic`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=noetic-ros-base) <sup>(ros-base)</sup> |   R35.3.1   | `dustynv/ros:noetic-ros-base-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:noetic-ros-base-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:noetic-ros-base-l4t-r35.1.0`          |
-|                                                                                     |   R34.1.1   | `dustynv/ros:noetic-ros-base-l4t-r34.1.1`          |
-|                                                                                     |   R34.1.0   | `dustynv/ros:noetic-ros-base-l4t-r34.1.0`          |
-|                                                                                     |   R32.7.1   | `dustynv/ros:noetic-ros-base-l4t-r32.7.1`          |
-|                                                                                     |   R32.6.1   | `dustynv/ros:noetic-ros-base-l4t-r32.6.1`          |
-|                                                                                     |   R32.5.0*  | `dustynv/ros:noetic-ros-base-l4t-r32.5.0`          |
-|                                                                                     |   R32.4.4   | `dustynv/ros:noetic-ros-base-l4t-r32.4.4`          |
-| [`ROS Noetic`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=noetic-pytorch) <sup>(PyTorch)</sup> |   R35.3.1   | `dustynv/ros:noetic-pytorch-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:noetic-pytorch-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:noetic-pytorch-l4t-r35.1.0`          |
-|                                                                                     |   R34.1.1   | `dustynv/ros:noetic-pytorch-l4t-r34.1.1`          |
-|                                                                                     |   R34.1.0   | `dustynv/ros:noetic-pytorch-l4t-r34.1.0`          |
-|                                                                                     |   R32.7.1   | `dustynv/ros:noetic-pytorch-l4t-r32.7.1`          |
-|                                                                                     |   R32.6.1   | `dustynv/ros:noetic-pytorch-l4t-r32.6.1`          |
-|                                                                                     |   R32.5.0*  | `dustynv/ros:noetic-pytorch-l4t-r32.5.0`          |
-|                                                                                     |   R32.4.4   | `dustynv/ros:noetic-pytorch-l4t-r32.4.4`          |
-
-</details>
-
-#### ROS2
-
-<details>
-<summary>
-<a href=https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=foxy><b>ROS2 Foxy</b></a> (<code>dustynv/ros:foxy-ros-base-l4t-r35.3.1</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`ROS2 Foxy`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=foxy-ros-base) <sup>(ros-base)</sup> |   R35.3.1   | `dustynv/ros:foxy-ros-base-l4t-r35.3.1`            |
-|                                                                                     |   R35.2.1   | `dustynv/ros:foxy-ros-base-l4t-r35.2.1`            |
-|                                                                                     |   R35.1.0   | `dustynv/ros:foxy-ros-base-l4t-r35.1.0`            |
-|                                                                                     |   R34.1.1   | `dustynv/ros:foxy-ros-base-l4t-r34.1.1`            |
-|                                                                                     |   R34.1.0   | `dustynv/ros:foxy-ros-base-l4t-r34.1.0`            |
-|                                                                                     |   R32.7.1   | `dustynv/ros:foxy-ros-base-l4t-r32.7.1`            |
-|                                                                                     |   R32.6.1   | `dustynv/ros:foxy-ros-base-l4t-r32.6.1`            |
-|                                                                                     |   R32.5.0*  | `dustynv/ros:foxy-ros-base-l4t-r32.5.0`            |
-|                                                                                     |   R32.4.4   | `dustynv/ros:foxy-ros-base-l4t-r32.4.4`            |
-| [`ROS2 Foxy`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=foxy-desktop) <sup>(desktop)</sup> |   R35.3.1   | `dustynv/ros:foxy-desktop-l4t-r35.3.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:foxy-desktop-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:foxy-desktop-l4t-r35.1.0`          |
-|                                                                                     |   R34.1.1   | `dustynv/ros:foxy-desktop-l4t-r34.1.1`          |
-| [`ROS2 Foxy`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=foxy-pytorch) <sup>(PyTorch)</sup> |   R35.3.1   | `dustynv/ros:foxy-pytorch-l4t-r35.3.1`            |
-|                                                                                     |   R35.2.1   | `dustynv/ros:foxy-pytorch-l4t-r35.2.1`            |
-|                                                                                     |   R35.1.0   | `dustynv/ros:foxy-pytorch-l4t-r35.1.0`            |
-|                                                                                     |   R34.1.1   | `dustynv/ros:foxy-pytorch-l4t-r34.1.1`            |
-|                                                                                     |   R34.1.0   | `dustynv/ros:foxy-pytorch-l4t-r34.1.0`            |
-|                                                                                     |   R32.7.1   | `dustynv/ros:foxy-pytorch-l4t-r32.7.1`            |
-|                                                                                     |   R32.6.1   | `dustynv/ros:foxy-pytorch-l4t-r32.6.1`            |
-|                                                                                     |   R32.5.0*  | `dustynv/ros:foxy-pytorch-l4t-r32.5.0`            |
-|                                                                                     |   R32.4.4   | `dustynv/ros:foxy-pytorch-l4t-r32.4.4`            |
-
-</details>
-<details>
-<summary>
-<a href=https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=galactic><b>ROS2 Galactic</b></a> (<code>dustynv/ros:galactic-ros-base-l4t-r35.3.1</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`ROS2 Galactic`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=galactic-ros-base) <sup>(ros-base)</sup> |   R35.3.1   | `dustynv/ros:galactic-ros-base-l4t-r35.3.1`        |
-|                                                                                     |   R35.2.1   | `dustynv/ros:galactic-ros-base-l4t-r35.2.1`        |
-|                                                                                     |   R35.1.0   | `dustynv/ros:galactic-ros-base-l4t-r35.1.0`        |
-|                                                                                     |   R34.1.1   | `dustynv/ros:galactic-ros-base-l4t-r34.1.1`        |
-|                                                                                     |   R34.1.0   | `dustynv/ros:galactic-ros-base-l4t-r34.1.0`        |
-|                                                                                     |   R32.7.1   | `dustynv/ros:galactic-ros-base-l4t-r32.7.1`        |
-|                                                                                     |   R32.6.1   | `dustynv/ros:galactic-ros-base-l4t-r32.6.1`        |
-|                                                                                     |   R32.5.0*  | `dustynv/ros:galactic-ros-base-l4t-r32.5.0`        |
-|                                                                                     |   R32.4.4   | `dustynv/ros:galactic-ros-base-l4t-r32.4.4`        |
-| [`ROS2 Galactic`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=galactic-desktop) <sup>(desktop)</sup> |   R35.3.1   | `dustynv/ros:galactic-desktop-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:galactic-desktop-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:galactic-desktop-l4t-r35.1.0`          |
-|                                                                                     |   R34.1.1   | `dustynv/ros:galactic-desktop-l4t-r34.1.1`        |
-| [`ROS2 Galactic`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=galactic-pytorch) <sup>(PyTorch)</sup> |   R35.3.1   | `dustynv/ros:galactic-pytorch-l4t-r35.3.1`        |
-|                                                                                     |   R35.2.1   | `dustynv/ros:galactic-pytorch-l4t-r35.2.1`        |
-|                                                                                     |   R35.1.0   | `dustynv/ros:galactic-pytorch-l4t-r35.1.0`        |
-|                                                                                     |   R34.1.1   | `dustynv/ros:galactic-pytorch-l4t-r34.1.1`        |
-|                                                                                     |   R34.1.0   | `dustynv/ros:galactic-pytorch-l4t-r34.1.0`        |
-|                                                                                     |   R32.7.1   | `dustynv/ros:galactic-pytorch-l4t-r32.7.1`        |
-|                                                                                     |   R32.6.1   | `dustynv/ros:galactic-pytorch-l4t-r32.6.1`        |
-|                                                                                     |   R32.5.0*  | `dustynv/ros:galactic-pytorch-l4t-r32.5.0`        |
-|                                                                                     |   R32.4.4   | `dustynv/ros:galactic-pytorch-l4t-r32.4.4`        |
-
-</details>
-<details>
-<summary>
-<a href=https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=humble><b>ROS2 Humble</b></a> (<code>dustynv/ros:humble-ros-base-l4t-r35.3.1</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`ROS2 Humble`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=humble-ros-base) <sup>(ros-base)</sup> |   R35.3.1   | `dustynv/ros:humble-ros-base-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:humble-ros-base-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:humble-ros-base-l4t-r35.1.0`          |
-|                                                                                     |   R34.1.1   | `dustynv/ros:humble-ros-base-l4t-r34.1.1`          |
-|                                                                                     |   R34.1.0   | `dustynv/ros:humble-ros-base-l4t-r34.1.0`          |
-|                                                                                     |   R32.7.1   | `dustynv/ros:humble-ros-base-l4t-r32.7.1`          |
-| [`ROS2 Humble`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=humble-desktop) <sup>(desktop)</sup> |   R35.3.1   | `dustynv/ros:humble-desktop-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:humble-desktop-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:humble-desktop-l4t-r35.1.0`          |
-|                                                                                     |   R34.1.1   | `dustynv/ros:humble-desktop-l4t-r34.1.1`          |
-|                                                                                     |   R32.7.1   | `dustynv/ros:humble-desktop-l4t-r32.7.1`          |
-| [`ROS2 Humble`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=humble-pytorch) <sup>(PyTorch)</sup> |   R35.3.1   | `dustynv/ros:humble-pytorch-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:humble-pytorch-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:humble-pytorch-l4t-r35.1.0`          |
-|                                                                                     |   R34.1.1   | `dustynv/ros:humble-pytorch-l4t-r34.1.1`          |
-|                                                                                     |   R34.1.0   | `dustynv/ros:humble-pytorch-l4t-r34.1.0`          |
-|                                                                                     |   R32.7.1   | `dustynv/ros:humble-pytorch-l4t-r32.7.1`          |
-
-</details>
-<details>
-<summary>
-<a href=https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=iron><b>ROS2 Iron</b></a> (<code>dustynv/ros:iron-ros-base-l4t-r35.3.1</code>)
-</summary>
-</br>
-
-|                                                                                     | L4T Version | Container Tag                                      |
-|-------------------------------------------------------------------------------------|:-----------:|----------------------------------------------------|
-| [`ROS2 Iron`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=iron-ros-base) <sup>(ros-base)</sup> |   R35.3.1   | `dustynv/ros:iron-ros-base-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:iron-ros-base-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:iron-ros-base-l4t-r35.1.0`          |
-|                                                                                     |   R32.7.1   | `dustynv/ros:iron-ros-base-l4t-r32.7.1`          |
-| [`ROS2 Iron`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=iron-desktop) <sup>(desktop)</sup> |   R35.3.1   | `dustynv/ros:iron-desktop-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:iron-desktop-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:iron-desktop-l4t-r35.1.0`          |
-|                                                                                     |   R32.7.1   | `dustynv/ros:iron-desktop-l4t-r32.7.1`          |
-| [`ROS2 Iron`](https://hub.docker.com/repository/registry-1.docker.io/dustynv/ros/tags?name=iron-pytorch) <sup>(PyTorch)</sup> |   R35.3.1   | `dustynv/ros:iron-pytorch-l4t-r35.3.1`          |
-|                                                                                     |   R35.2.1   | `dustynv/ros:iron-pytorch-l4t-r35.2.1`          |
-|                                                                                     |   R35.1.0   | `dustynv/ros:iron-pytorch-l4t-r35.1.0`          |
-|                                                                                     |   R32.7.1   | `dustynv/ros:iron-pytorch-l4t-r32.7.1`          |
-
-</details>
-
-> **note:** L4T R32.x containers can run on other versions of R32.x (e.g. R32.7.1 containers can run on R32.7.2)<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; L4T R35 containers can run on other versions of R35 (e.g. R35.1.0 containers can run on R35.2.1)
-
-To download and run one of these images, you can use the included run script from the repo:
-
-``` bash
-# L4T version in the container tag should match your L4T version
-$ scripts/docker_run.sh -c nvcr.io/nvidia/l4t-pytorch:r32.5.0-pth1.7-py3
-```
-
-For other configurations, below are the instructions to build and test the containers using the included Dockerfiles.
-
-## Building the Containers
-
-To rebuild the containers from a Jetson device running [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer, first clone this repo:
-
-``` bash
-$ git clone https://github.com/dusty-nv/jetson-containers
-$ cd jetson-containers
-```
-
-Before proceeding, make sure you have set your [Docker Default Runtime](#docker-default-runtime) to `nvidia` as shown below:
-
-### Docker Default Runtime
-
-To enable access to the CUDA compiler (nvcc) during `docker build` operations, add `"default-runtime": "nvidia"` to your `/etc/docker/daemon.json` configuration file before attempting to build the containers:
-
-``` json
-{
-    "runtimes": {
-        "nvidia": {
-            "path": "nvidia-container-runtime",
-            "runtimeArgs": []
-        }
-    },
-
-    "default-runtime": "nvidia"
-}
-```
-
-You will then want to restart the Docker service or reboot your system before proceeding.
-
-### ML Containers
-
-To build the ML containers (`l4t-pytorch`, `l4t-tensorflow`, `l4t-ml`), use [`scripts/docker_build_ml.sh`](scripts/docker_build_ml.sh) - along with an optional argument of which container(s) to build: 
-
-``` bash
-$ ./scripts/docker_build_ml.sh all        # build all: l4t-pytorch, l4t-tensorflow, and l4t-ml
-$ ./scripts/docker_build_ml.sh pytorch    # build only l4t-pytorch
-$ ./scripts/docker_build_ml.sh tensorflow # build only l4t-tensorflow
-```
-
-> You have to build `l4t-pytorch` and `l4t-tensorflow` to build `l4t-ml`, because it uses those base containers in the multi-stage build.
-
-Note that the TensorFlow and PyTorch pip wheel installers for aarch64 are automatically downloaded in the Dockerfiles from the [Jetson Zoo](https://elinux.org/Jetson_Zoo).
-
-### ROS Containers
-
-To build the ROS containers, use [`scripts/docker_build_ros.sh`](scripts/docker_build_ros.sh) with the `--distro` option to specify the name of the ROS distro to build and `--package` to specify the ROS package to build (the default package is `ros_base`):
-
-``` bash
-$ ./scripts/docker_build_ros.sh --distro all     # build all ROS distros (default)
-$ ./scripts/docker_build_ros.sh --distro humble  # build only humble (ros_base)
-$ ./scripts/docker_build_ros.sh --distro humble --package desktop  # build humble desktop
-```
-
-The package options are:  `ros_base`, `ros_core`, and `desktop` - you can also specify `--with-pytorch` to build variants with support for PyTorch, [jetson-inference](https://github.com/dusty-nv/jetson-inference) and [ros_deep_learning](https://github.com/dusty-nv/ros_deep_learning). 
-
-## Run the Containers
-
-To run ROS container, first you should get the container name , type the command which built container, if container has been built successfully, it will give your container name like bellow.
+Using the included tools, you can easily combine packages together for building your own containers.  Want to run ROS2 with PyTorch and Transformers?  No problem - just do the [system setup](/docs/setup.md), and build it on your Jetson:
 
 ```bash
-$ ./scripts/docker_build_ros.s --distro humble
- ... 
-Successfully built ebc1d71f00f3
-Successfully tagged ros:humble-ros-base-l4t-r35.1.0 # ros:humble-ros-base-l4t-r35.1.0 is the container name
+$ jetson-containers build --name=my_container pytorch transformers ros:humble-desktop
 ```
 
-Then, type
+There are shortcuts for running containers too - this will pull or build a [`l4t-pytorch`](packages/l4t/l4t-pytorch) image that's compatible:
 
 ```bash
-$ ./scripts/docker_run.sh -c ros:humble-ros-base-l4t-r35.1.0
+$ jetson-containers run $(autotag l4t-pytorch)
+```
+> <sup>[`jetson-containers run`](/docs/run.md) launches [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) with some added defaults (like `--runtime nvidia`, mounted `/data` cache and devices)</sup><br>
+> <sup>[`autotag`](/docs/run.md#autotag) finds a container image that's compatible with your version of JetPack/L4T - either locally, pulled from a registry, or by building it.</sup>
+
+If you look at any package's readme (like [`l4t-pytorch`](packages/l4t/l4t-pytorch)), it will have detailed instructions for running it.
+
+#### Changing CUDA Versions
+
+You can rebuild the container stack for different versions of CUDA by setting the `CUDA_VERSION` variable:
+
+```bash
+CUDA_VERSION=12.4 jetson-containers build transformers
 ```
 
-to run the container.
+It will then go off and either pull or build all the dependencies needed, including PyTorch and other packages that would be time-consuming to compile.  There is a [Pip server](/docs/build.md#pip-server) that caches the wheels to accelerate builds.  You can also request specific versions of cuDNN, TensorRT, Python, and PyTorch with similar environment variables like [here](/docs/build.md#changing-versions).
 
-## Testing the Containers
+## Documentation
 
-To run a series of automated tests on the packages installed in the containers, run the following from your `jetson-containers` directory:
+<a href="https://www.jetson-ai-lab.com"><img align="right" width="200" height="200" src="https://nvidia-ai-iot.github.io/jetson-generative-ai-playground/images/JON_Gen-AI-panels.png"></a>
 
-``` bash
-$ ./scripts/docker_test_ml.sh all        # test all: l4t-pytorch, l4t-tensorflow, and l4t-ml
-$ ./scripts/docker_test_ml.sh pytorch    # test only l4t-pytorch
-$ ./scripts/docker_test_ml.sh tensorflow # test only l4t-tensorflow
+* [Package List](/packages)
+* [Package Definitions](/docs/packages.md)
+* [System Setup](/docs/setup.md)
+* [Building Containers](/docs/build.md)
+* [Running Containers](/docs/run.md)
+
+Check out the tutorials at the [**Jetson Generative AI Lab**](https://www.jetson-ai-lab.com)!
+
+## Getting Started
+
+Refer to the [System Setup](/docs/setup.md) page for tips about setting up your Docker daemon and memory/storage tuning.
+
+```bash
+# install the container tools
+git clone https://github.com/dusty-nv/jetson-containers
+bash jetson-containers/install.sh
+
+# automatically pull & run any container
+jetson-containers run $(autotag l4t-pytorch)
 ```
 
-To test ROS:
+Or you can manually run a [container image](https://hub.docker.com/r/dustynv) of your choice without using the helper scripts above:
 
-``` bash
-$ ./scripts/docker_test_ros.sh all       # test if the build of ROS all was successful: 'melodic', 'noetic', 'eloquent', 'foxy'
-$ ./scripts/docker_test_ros.sh melodic   # test if the build of 'ROS melodic' was successful
-$ ./scripts/docker_test_ros.sh noetic    # test if the build of 'ROS noetic' was successful
-$ ./scripts/docker_test_ros.sh eloquent  # test if the build of 'ROS eloquent' was successful
-$ ./scripts/docker_test_ros.sh foxy      # test if the build of 'ROS foxy' was successful
+```bash
+sudo docker run --runtime nvidia -it --rm --network=host dustynv/l4t-pytorch:r36.2.0
 ```
 
+Looking for the old jetson-containers?   See the [`legacy`](https://github.com/dusty-nv/jetson-containers/tree/legacy) branch.
+
+## Gallery
+
+<a href="https://www.youtube.com/watch?v=UOjqF3YCGkY"><img src="https://raw.githubusercontent.com/dusty-nv/jetson-containers/docs/docs/images/llamaspeak_llava_clip.gif"></a>
+> [Multimodal Voice Chat with LLaVA-1.5 13B on NVIDIA Jetson AGX Orin](https://www.youtube.com/watch?v=9ObzbbBTbcc) (container: [`NanoLLM`](https://dusty-nv.github.io/NanoLLM/))   
+
+<br/>
+
+<a href="https://www.youtube.com/watch?v=hswNSZTvEFE"><img src="https://raw.githubusercontent.com/dusty-nv/jetson-containers/docs/docs/images/llamaspeak_70b_yt.jpg" width="800px"></a>
+> [Interactive Voice Chat with Llama-2-70B on NVIDIA Jetson AGX Orin](https://www.youtube.com/watch?v=wzLHAgDxMjQ) (container: [`NanoLLM`](https://dusty-nv.github.io/NanoLLM/))  
+
+<br/>
+
+<a href="https://www.youtube.com/watch?v=OJT-Ax0CkhU"><img src="https://raw.githubusercontent.com/dusty-nv/jetson-containers/docs/docs/images/nanodb_tennis.jpg"></a>
+> [Realtime Multimodal VectorDB on NVIDIA Jetson](https://www.youtube.com/watch?v=wzLHAgDxMjQ) (container: [`nanodb`](/packages/vectordb/nanodb))  
+
+<br/>
+
+<a href="https://www.jetson-ai-lab.com/tutorial_nanoowl.html"><img src="https://github.com/NVIDIA-AI-IOT/nanoowl/raw/main/assets/jetson_person_2x.gif"></a>
+> [NanoOWL - Open Vocabulary Object Detection ViT](https://www.jetson-ai-lab.com/tutorial_nanoowl.html) (container: [`nanoowl`](/packages/vit/nanoowl))  
+
+<a href="https://www.youtube.com/watch?v=w48i8FmVvLA"><img src="https://raw.githubusercontent.com/dusty-nv/jetson-containers/docs/docs/images/live_llava.gif"></a>
+> [Live Llava on Jetson AGX Orin](https://youtu.be/X-OXxPiUTuU) (container: [`NanoLLM`](https://dusty-nv.github.io/NanoLLM/)) 
+
+<a href="https://www.youtube.com/watch?v=wZq7ynbgRoE"><img width="640px" src="https://raw.githubusercontent.com/dusty-nv/jetson-containers/docs/docs/images/live_llava_bear.jpg"></a>
+> [Live Llava 2.0 - VILA + Multimodal NanoDB on Jetson Orin](https://youtu.be/X-OXxPiUTuU) (container: [`NanoLLM`](https://dusty-nv.github.io/NanoLLM/)) 
+
+<a href="https://www.jetson-ai-lab.com/tutorial_slm.html"><img src="https://www.jetson-ai-lab.com/images/slm_console.gif"></a>
+> [Small Language Models (SLM) on Jetson Orin Nano](https://www.jetson-ai-lab.com/tutorial_slm.html) (container: [`NanoLLM`](https://dusty-nv.github.io/NanoLLM/))
+
+<a href="https://www.jetson-ai-lab.com/tutorial_nano-vlm.html#video-sequences"><img src="https://raw.githubusercontent.com/dusty-nv/jetson-containers/docs/docs/images/video_vila_wildfire.gif"></a>
+> [Realtime Video Vision/Language Model with VILA1.5-3b](https://www.jetson-ai-lab.com/tutorial_nano-vlm.html#video-sequences) (container: [`NanoLLM`](https://dusty-nv.github.io/NanoLLM/))  
+  
